@@ -1,2 +1,3 @@
-# phaser_template
-Phaser template from https://phasergames.com/downloads/ultimate-casual-game-parts-template-free-version/
+# crawler
+A phaser project demonstrating a basic crawler, roguelike system.
+
