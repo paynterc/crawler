@@ -4,17 +4,19 @@ var controller;
 var eventDispatcher;
 var mediaManager;
 var levelManager;
+// 640x480
 //
-//
-var useLandscape = false;
+var defaultW = 1280;
+var defaultH = 960;
+var useLandscape = true;
 window.onload = function() {
     isMobile = navigator.userAgent.indexOf("Mobile");
     isMobile = (isMobile != -1) ? true : false;
     if (isMobile == false) {
         if (useLandscape == true) {
-            game = new Phaser.Game(640, 480, Phaser.AUTO, "ph_game");
+            game = new Phaser.Game(defaultW, defaultH, Phaser.AUTO, "ph_game");
         } else {
-            game = new Phaser.Game(480, 640, Phaser.AUTO, "ph_game");
+            game = new Phaser.Game(defaultH, defaultW, Phaser.AUTO, "ph_game");
         }
     } else {
         game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, "ph_game");

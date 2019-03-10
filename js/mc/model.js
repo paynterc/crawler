@@ -1,9 +1,23 @@
 class Model {
     constructor() {
+
+        // My stuff
+        this.map=new Object();
+        this.mapLevel = 1;
+        this.mapRoom = 1;
+        this.mapLastLevel=0;
+        this.mapLastRoom=0;
+        this.mapLastPx=0;
+        this.mapLastPy=0;
+        this.mapNewPx=0;
+        this.mapNewPy=0;
+        // End my stuff
+
+
         this.score = 0;
         this.mainFont = "Flamenco";
         this.buttonFont="Flamenco";
-        
+
         this._musicOn = true;
         this.soundOn = true;
         this.lastUnlocked = 1;

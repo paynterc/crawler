@@ -19,6 +19,15 @@ var StateInit = {
     },
     create: function() {
         game.state.start("StateLoad");
+        game.input.keyboard.addKeyCapture([
+            Phaser.Keyboard.W,
+            Phaser.Keyboard.D,
+            Phaser.Keyboard.A,
+            Phaser.Keyboard.S,
+            Phaser.Keyboard.SPACEBAR
+        ]);
+        model.map['a']=1;
+
     },
     update: function() {},
     rightWay: function() {
@@ -30,4 +39,44 @@ var StateInit = {
     wrongWay: function() {
         document.getElementById(wrongTag).style.display = "block";
     }
+}
+function isOdd(num) { return num % 2;}
+
+function upInputIsActive(){
+
+    var isActive = false;
+    isActive = game.input.keyboard.isDown(Phaser.Keyboard.W);
+
+    return isActive;
+}
+
+function downInputIsActive(){
+
+    var isActive = false;
+    isActive = game.input.keyboard.isDown(Phaser.Keyboard.S);
+
+    return isActive;
+}
+
+function rightInputIsActive(){
+    var isActive = false;
+    isActive = game.input.keyboard.isDown(Phaser.Keyboard.D);
+
+    return isActive;
+}
+
+function leftInputIsActive(){
+    var isActive = false;
+
+    isActive = game.input.keyboard.isDown(Phaser.Keyboard.A);
+
+    return isActive;
+}
+
+function fireButtonIsActive(){
+    var isActive = false;
+
+    isActive = game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR);
+
+    return isActive;
 }
