@@ -1,22 +1,11 @@
 SCALE = 64;
 PLAYER_SPEED = 128;
 VIEW_SCALE = 2;
+G_VOID=0;
+G_FLOOR=1;
+G_WALL=2;
 var StateMain = {
     preload: function() {
-        game.load.image('floor','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAr0lEQVR4Xu3YQQ3AIBAEQNBBUhU8KhADaENEZbQJj6bVsIMDNndwN/Va6y7Bp8YHMMfYFXD2HlUHR2v7vlUAKkALeAM8gn4B36A5wCBkEjQK2wWSErAM2QatwzwAiBAhJMYEoSgVpsJUmApTYSpMhakwFabCVDjJRAsUhaJQFIpCUSgKRaEoFIWiUBSKQlEoCkWhKBSFolAUikLRpASoMBWmwn8VTur/711fEUoN4AEQ1+FZiO8S4QAAAABJRU5ErkJggg==');
-
-        game.load.image('wall1','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABfUlEQVR4Xu2bMQ7CMAxF2xPAjAQIiUMwcRYEYmBnYEGMMHAqJg7BwklAKg1qq0akkm0CeczINj/f3x+nzbMse2QJf3IAKBlwum2T4sFuei5+75sBAFAywCGjTYcm4NZ5vQywLsQBbZ33IwCrzbKo7XDci5Jh1J8U8XwMsMoLAD4RdMi4k1jvFiIMGPSGRZxQBmjnDWaAdiFNDbACHgBoAY8RQgNKalj1IhpQImDNPEQQEUQE2/8OW/ciIogIvhCwZh5TgCnAFGAKtG6FrcUo+jEosg6q7BZDN0LaeYOngHYhPgZo5/0IgFQBvjjcCzSu4qK5F9A++VjiczfYdIKxnIx1HTwf4B6QuN4v1uB/Nd9sPK9bYQCAAbSASE+63oq9pdQ0IHkARGhkEESNAQa1i6RIBgBfSwIARggniBWubYVjNy4i0l8JkowI+oADAKYAU4ApwBSovjLDGGQlxkpM2mxFHS/YCP3Kiqsr2gCAE8QJ1p1g1x76l+8nfzv8BAGcIB//GDLSAAAAAElFTkSuQmCC');
-
-        game.load.image('wall2','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABaklEQVR4Xu2bQQoCMQxFOyfQtaAgeDBRXLh3MRtxqQuP6F0UaqtSpraLJgT65gBN5vc3SfPTwTn3dB1/AwAEBtwep654MG7u/n8/DACAwICIjDQdUsC17WYZoO1IBFrbbhGA/XHnfbtcz03JsJqv/Xo5BmjZBYBcEIzIxJ04jNsmDFjMln6dWgZI261mgLQjaQzQAh4AOAKZQogYEKihdRaJAQEBbeYRBAmCBMHp67D2WSQIEgTfCGgzjyxAFiALkAUmu8Lawch8GmzSDvrpLdZ2hKTtVmcBaUdyDJC2WwSglQO5ddAFEinOjC4gvfNW1kcbRBxFHf5fCUqfVbKA1SyQlsKow73L44ijyOPMBzTJiAxIMCHCiAwzQgxJMSXGmBxzgrVtcekSvNgVZkgqDEtL74R5ZQgAuA1yG+z7Ntjk71GHv09vausAaeCLdUArB1CHMwiYFUakd97K+qjDqTpsZWe0/ej+9fgLQA00Ln4/YPMAAAAASUVORK5CYII=');
-
-
-        game.load.spritesheet('player', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABAUlEQVRYR+2XQQ4CIQxF6UHceR8X3sPEC7jwAibew4X3cTcHqQEHpsPQMg2MibEsoZTXT2kDuPJAZl4zDYLvtCYZaQ4r2ZZ808DCugiALz0D7NOe3Hc4HBEdwCTANxVAf3gcI8SEksW6RQ7oAXC4q+8AdqcUZB6UWgEDoAp4aTlF6JpdQYsCi6fXmIT0NbDPmhaiYPS4oTueP9MtAMTP4oyRLJXiGd0GAFwt+R+AUlOatWM2QVpygOjONbxg4hd7NB6pZ+gALgd016e4p9qgMh9VgOgwKOE39xgkCAMwBUwBnQI9nmDm43cAZgVJ+DXVRIqVbFU5lf5vqxwUaAxApcAbdyysIFex0rQAAAAASUVORK5CYII=',32,32);
-
-        game.load.spritesheet('door','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACfklEQVR4Xu2bTU7DMBCFkxPAskIChMQNqkqsuEDVOyAQC/YgdYPoDgTsWcEtegFWHAIJwapLbhDUKGO5zjiZ+Gdwk2EJydj+/ObN2BF5lmVFNuCfXABUCnj4vB6UDubHz+V6lQIEQKUAIBNbDiZw7nGtCuCeCIDmHrcVwMXVeTm3u/vboGI42D0q49kUwDWuALCZIJCBnbicnwVRwN7OfhmHqoDY45IVEHsipgdwgRcAkgKWRkg8oJIGVy6KB1QEuJUnJigmSDDB15e3IE0QFoTrMPTz+4U2YKQUEACVArbxrgB2OIgCBADzZYmP8cBmRVEA16VF8gCKxcJnjurdvIoTIh7EYlFAMZ36A5hMMgXAN54WSwAYfhW0CoAHpKSAp9Uqu5nNlJoGp4BoAPQkN6lukwJMszLXUvsyhJW6QQFosvcUPaCcL1IF2sqU07fBXgNoI6b/PSUPMBXQZR0bX4e7vNhLAB/f760MTg5Py2dSBkBZx3oNsBZVBSgvCgCLAspmZDRqVdDGA5HOApSNFAVICogHhDFBp9wHI+iDBwgAxP3z5bJWDdC+gaAAl1hmFYDSbfu9Vx+AKcBl0rbGyiVWMgDWi4IF+CqgSyzWPsBUALZjkA81CC0p4BpLABDONNE6QUzy1jQgKkBXDiUWqwJMuxcASAmM6QHKgzQ1JaEA7FjYOxP06gKNi0zvC5b/UMCgATyOx90vQMy8ILTC5BsWbgUIAEQBnVNimxWAmRYngNpY3CngAwCr3Xq8ziCNihK8D9DP003X4vrEmxYREgBLI9QEwGW3XAFggFkA6KXIVIALABXPwwRh3GQAkCQfsA+IAoDcdPTswcH/9/gfuZg5PbPZMrAAAAAASUVORK5CYII=');
-
-        game.load.spritesheet('enemy1', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAhUlEQVRYR+2XSw6AIAxEp/c/NMZFDTF+ZohKTYZ1oY8HtCEANEwcUQagtW9FRKx7BzYDBrABGyhtIN8sC8nES3WAWbCv5ky8BPBGqzCADdjAvwwkrVoPrionbWA0ecKeQVAAfXK2D2Tiu7kSgJp8D3E0nwJQz1yJN4AN1DOg3OAnY6f/jhdB6pIB3FepFAAAAABJRU5ErkJggg==',32,32);
-        game.load.spritesheet('ghost', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAABACAYAAAB7jnWuAAABQ0lEQVRoQ+1Y2Q7DIAwb///RnYZGxxGIA15R1eyp64GNE3KFF+93dJYKI4jhQ5BbD7j+XMRaJXCCH4fMI4QCosFbIRARe8DN9n9ExowssqPgac1MjZPEjAKmnWtK3I7A0u4lU1gV2EqAAl6pUB5S5QRABJKn1yekvp/+W0ywlQAEDsaQ+JpVASegJh2L/G6CaQUs6VcziZ+CKQXcBNYSbFiOf/Mgmoy2hWJ6BKyrop4CTZHPlB8JRAUBNrhGgG5vyRl7cUAF/3yYFLFe50SGBLQ4znxeOyHa6bI4mKpiFmixDhqI/gIeTwNxZZ+QiGL6hEQKPrnvzTihGi2ROiCRuB2Bpd37hERwSFMugOT3CQmaW7wzmlKAWR1PEfDm1E2wXYFHEnjefEBsLpi2lyYkl4H22nOo0MiZs+cDV7fkTXe8lcAb6jQWJzgd+uYAAAAASUVORK5CYII=',32,32);
-
 
 
 
@@ -25,6 +14,7 @@ var StateMain = {
         //keep this line
         //to tell the game what state we are in!
         model.state = "main";
+
 
         game.world.setBounds(0, 0, 6400, 6400);
         this.walls = game.add.group();
@@ -35,7 +25,7 @@ var StateMain = {
         game.world.bringToTop(this.walls);
         game.world.bringToTop(this.doors);
         game.world.bringToTop(this.enemies);
-
+        this.printMapData();
         var rKey = this.makeKey(model.mapLevel,model.mapRoom);
         var new_room = this.getRoom(rKey);// See if the room already exists
         if(!new_room){
@@ -47,7 +37,7 @@ var StateMain = {
             model.map[rKey]=new_room;
         }
         this.current_room = new_room;
-        this.renderRoom();
+        this.renderRoom(new_room);
 
 
         this.player = game.add.sprite(new_room.center_x, new_room.y1+new_room.hPx-(SCALE/2), 'player');
@@ -66,25 +56,9 @@ var StateMain = {
         game.camera.follow(this.player);
 
 
-
     },
     makeKey: function(lvl,rm){
         return lvl.toString() + "-" + rm.toString();
-    },
-    makePattern: function(){
-        var timers=[];
-        var actions=[];
-
-        var timerCount = game.rnd.integerInRange(2,5);
-        var actionCount = game.rnd.integerInRange(2,5);
-
-        for(var i=0;i<timerCount;i++){
-            timers.push(game.rnd.integerInRange(1,3));
-        }
-        for(var i=0;i<actionCount;i++){
-            actions.push(game.rnd.integerInRange(0,4));
-        }
-        return [timers,actions];
     },
     getRoom: function(key) {
         if(model.map.hasOwnProperty(key)){
@@ -120,8 +94,6 @@ var StateMain = {
     },
     enterDoor: function(ent,d){
 
-
-
         // Get the index of the door and look up the door in the current room's door data to get the destination level and room.
         var dIdx = d.crwlIdx;
         var door = this.current_room.doorMap[dIdx];
@@ -129,6 +101,11 @@ var StateMain = {
         if(door.toLevel==0){
             return false;
         }else{
+
+
+            console.log('toLevel', door.toLevel);
+            console.log('toRoom', door.toRoom);
+
             model.mapLastLevel=model.mapLevel;
             model.mapLastRoom=model.mapRoom;
             model.mapLevel = door.toLevel;
@@ -137,11 +114,18 @@ var StateMain = {
             model.mapNewPy=door.py;
             model.mapLastPx=this.player.x;
             model.mapLastPy=this.player.y;
-
+            this.printMapData();
             this.restartRoom();
         }
 
 
+    },
+    printMapData: function(){
+        console.log('mapLevel', model.mapLevel);
+        console.log('mapRoom', model.mapRoom);
+        console.log('mapLastLevel', model.mapLastLevel);
+        console.log('mapLastRoom', model.mapLastRoom);
+        console.log('--- end map data ---');
     },
     restartRoom: function(){
 
@@ -149,6 +133,54 @@ var StateMain = {
         // The first one, true, tells Phaser that you want to keep the cache (i.e. the assets that we have already loaded); the second one, false tells Phaser that we do not want to keep the existing world objects: it will wipe out all the current entities –sprites, texts, images, groups, etc.
     },
     Room: function(w,h){
+
+        var gw=game.world.width/SCALE;//grid width
+        var gh=game.world.height/SCALE;//grid height
+        this.grid = [];// rows
+        for(var r=0;r<gh;r++){
+            var col=[];//columns
+            for(var c=0;c<gw;c++){
+                col.push(G_VOID);
+            }
+            this.grid.push(col);
+        }
+
+
+        // Find the center of the grid and try to place the room about in the middle of the grid.
+        var gCx=Math.floor(this.grid[0].length/2);// Cols/2 rounded down
+        var gCy=Math.floor(this.grid.length/2);// Rows/2 rounded down
+        var rGx1 = gCx - Math.floor(w/2);// room x1. upper left.
+        var rGy1 = gCy - Math.floor(h/2);// room y1. upper left.
+        // Fill in the grid with floor tags
+        for(var r=rGy1;r<rGy1+h;r++){
+            for(var c=rGx1;c<rGx1+w;c++){
+                this.grid[r][c]=G_FLOOR;
+            }
+        }
+        // Add walls
+        for(var r=0;r<this.grid.length;r++){
+            for(var c=0;c<this.grid[r].length;c++){
+                if(this.grid[r][c]==G_FLOOR){
+
+                    // Corners
+                    if(this.grid[r-1][c-1]==G_VOID){
+                        this.grid[r-1][c-1]=G_WALL;
+                    }
+                    if(this.grid[r-1][c+1]==G_VOID){
+                        this.grid[r-1][c+1]=G_WALL;
+                    }
+                    if(this.grid[r+1][c-1]==G_VOID){
+                        this.grid[r+1][c-1]=G_WALL;
+                    }
+                    if(this.grid[r+1][c+1]==G_VOID){
+                        this.grid[r+1][c+1]=G_WALL;
+                    }
+
+                }
+            }
+        }
+
+
         // For simplicity you could say that x1, and y1 define the top-left
         // corner of the rectangle, while x2, and y2 define the bottom-right
         // corner.
@@ -156,20 +188,12 @@ var StateMain = {
         this.h = h;
         this.wPx = w*SCALE;
         this.hPx = h*SCALE;
-        this.x1 = (game.world.width/2) - (this.wPx/2);
-        this.y1 = (game.world.height/2) - (this.hPx/2);
+        this.x1 = rGx1 * SCALE;
+        this.y1 = rGy1 * SCALE;
         this.x2 = this.x1 + this.wPx;
         this.y2 = this.y1 + this.hPx;
-
-
-        // We create this array which holds the center x and center y
-        // coordinates with [0] being x and [1] being y. We'll use these
-        // later when configuring out tunnels
-        this.center_coords = [];
         this.center_x = (this.x1 + this.x2) / 2;
         this.center_y = (this.y1 + this.y2) / 2;
-        this.center_coords.push(this.center_x);
-        this.center_coords.push(this.center_y);
 
         var Door = function(x,y,toLevel,toRoom,px,py){
             // toLevel = next level on the map. toRoom = room on that level.
@@ -206,6 +230,8 @@ var StateMain = {
         this.doorMap.push(newDoor);
 
         this.printData = function(){
+            console.log('w',this.w);
+            console.log('h',this.h);
             console.log('x1',this.x1);
             console.log('y1',this.y1);
             console.log('center_x',this.center_x);
@@ -232,30 +258,59 @@ var StateMain = {
         this.enemies=[];
         this.makeEnemies = function(){
             var eSpan = Math.floor((w+h)/4);
-            console.log('eSpan',eSpan);
             var numEnemies = game.rnd.between(1,eSpan) * 2;
-            console.log('numEnemies',numEnemies);
-
             var typeEnemy = game.rnd.pick([1]);//1:Ghost, 2:??
             var pattern = this.makePattern();
             this.enemies.push([numEnemies,typeEnemy,pattern]);
         }
         this.makeEnemies();
 
-        // Pillars can not be on the center row or the first or last row. Cannot block doors or enemey placement.
+        // Pillars can not be on the center row or the first or last row. Cannot block doors or enemy placement.
         // Each pillar is just an x,y coord that corresponds to a floor tile.
         this.pillars=[];
         var pCount = game.rnd.between(0,Math.floor(h/4));
         for(var p=0;p<pCount;p++){
-            this.pillars.push([game.rnd.between(1,Math.floor(w/2)),game.rnd.between(1,Math.floor(h/2)-1)]);
+
+
+            var pRow = game.rnd.between(1,Math.floor(h/2)-1);
+            var pCol = game.rnd.between(0,Math.floor(w/2)-1);
+            //rGx1,rGy1,h,w
+
+            this.grid[rGy1+pRow][rGx1+pCol]=G_WALL;
+            this.grid[rGy1+pRow][rGx1+w-pCol-1]=G_WALL;
+            this.grid[rGy1+h-pRow-1][rGx1+pCol]=G_WALL;
+            this.grid[rGy1+h-pRow-1][rGx1+w-pCol-1]=G_WALL;
+
+
         }
 
 
     },
-    renderRoom: function(){
+    renderRoom: function(room){
         var walltile, floortile, door;
         var x,y;
-        var room = this.current_room;
+        var tileBelow;
+        for(var r=0; r<room.grid.length; r++){
+            for(var c=0; c<room.grid[r].length; c++){
+
+                var thisTile = room.grid[r][c];
+                if(thisTile===G_FLOOR){
+                    this.addFloor(c*SCALE,r*SCALE,);
+                }else if(thisTile===G_WALL){
+                    tileBelow = room.grid[r+1][c];
+                    var wallType = "wall1";
+                    if(tileBelow === G_WALL){
+                        wallType="wall2";
+
+                    }else{
+                        wallType="wall1";
+                    }
+                    this.addWall( c*SCALE, r*SCALE, wallType );
+                }
+            }
+        }
+
+        /****
         for (x = room.x1; x < room.x2; x+=SCALE) {
             for (y = room.y1; y < room.y2; y+=SCALE){
                 floortile = game.add.sprite(x, y, "floor");
@@ -275,6 +330,7 @@ var StateMain = {
             this.addWall(room.x1-SCALE, y, "wall2");
             this.addWall(room.x1+room.wPx, y, "wall2");
         }
+         ****/
 
         // Add the doors
         var doors = room.doorMap;
@@ -282,17 +338,6 @@ var StateMain = {
             this.addDoor(doors[i].dx1, doors[i].dy1, doors[i].mapIndex, i);
         }
 
-        // Add pillars
-
-        for(var i=0;i<room.pillars.length;i++){
-            var P=room.pillars[i];
-            var cx = room.center_x - (SCALE/2);//upper left corner of center tile
-            var cy = room.center_y - (SCALE/2);
-            this.addWall( cx - (P[0]*SCALE ), cy - (P[1]*SCALE), "wall1");
-            this.addWall( cx + (P[0]*SCALE ), cy - (P[1]*SCALE), "wall1");
-            this.addWall( cx - (P[0]*SCALE ), cy + (P[1]*SCALE), "wall1");
-            this.addWall(  cx + (P[0]*SCALE ), cy + (P[1]*SCALE), "wall1");
-        }
 
         // Add enemies
         var eXplc = 1;
@@ -306,9 +351,6 @@ var StateMain = {
             for(var e=0;e<Math.floor(eCount/2);e++){
                 var eX = game.rnd.between(1,Math.floor(room.w/2));
                 var eY = game.rnd.between(1,Math.floor(room.h/2));
-                console.log('eX',eX);
-                console.log('eY',eY);
-
                 E = new Ghost(room.center_x - (eX * SCALE * eXplc),room.center_y - (eY*SCALE*eYplc),this.walls,-1,1,1,0,eData[2]);
                 this.enemies.add(E);
                 E = new Ghost(room.center_x + (eX * SCALE * eXplc),room.center_y - (eY*SCALE*eYplc),this.walls,1,-1,1,0,eData[2]);
@@ -319,16 +361,21 @@ var StateMain = {
 
 
     },
+    addFloor: function(x,y){
+        var floortile = game.add.sprite(x,y, "floor");
+        //floortile.anchor.setTo(0.5, 0.5);
+        this.floors.add(floortile);
+    },
     addWall: function(x,y,type){
         var walltile = game.add.sprite(x, y, type);
+        //walltile.anchor.setTo(0.5, 0.5);
         game.physics.enable(walltile, Phaser.Physics.ARCADE);
         walltile.body.immovable = true;
-        walltile.bringToTop();
         this.walls.add(walltile);
     },
     addDoor: function(x,y,goLvl,i){
         var door = game.add.sprite(x, y, "door");
-        door.anchor.setTo(0.5, 0);
+        door.anchor.setTo(0.5,0);
         game.physics.enable(door, Phaser.Physics.ARCADE);
         door.body.immovable = true;
         door.body.setSize(64, 72, 0, -4);// Extends about 4 px above and below the door so you can hit it.
