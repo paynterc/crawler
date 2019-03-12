@@ -80,3 +80,11 @@ function fireButtonIsActive(){
 
     return isActive;
 }
+
+function makeArray(start,end) {
+    var myArray=[];
+    for (var i = start; i < end; i++) {
+        myArray.push(i);
+    }
+    return myArray;
+}

@@ -3,17 +3,21 @@ PLAYER_SPEED = 128;
 VIEW_SCALE = 2;
 var StateMain = {
     preload: function() {
-
+        game.load.image('floor','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAr0lEQVR4Xu3YQQ3AIBAEQNBBUhU8KhADaENEZbQJj6bVsIMDNndwN/Va6y7Bp8YHMMfYFXD2HlUHR2v7vlUAKkALeAM8gn4B36A5wCBkEjQK2wWSErAM2QatwzwAiBAhJMYEoSgVpsJUmApTYSpMhakwFabCVDjJRAsUhaJQFIpCUSgKRaEoFIWiUBSKQlEoCkWhKBSFolAUikLRpASoMBWmwn8VTur/711fEUoN4AEQ1+FZiO8S4QAAAABJRU5ErkJggg==');
 
         game.load.image('wall1','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABfUlEQVR4Xu2bMQ7CMAxF2xPAjAQIiUMwcRYEYmBnYEGMMHAqJg7BwklAKg1qq0akkm0CeczINj/f3x+nzbMse2QJf3IAKBlwum2T4sFuei5+75sBAFAywCGjTYcm4NZ5vQywLsQBbZ33IwCrzbKo7XDci5Jh1J8U8XwMsMoLAD4RdMi4k1jvFiIMGPSGRZxQBmjnDWaAdiFNDbACHgBoAY8RQgNKalj1IhpQImDNPEQQEUQE2/8OW/ciIogIvhCwZh5TgCnAFGAKtG6FrcUo+jEosg6q7BZDN0LaeYOngHYhPgZo5/0IgFQBvjjcCzSu4qK5F9A++VjiczfYdIKxnIx1HTwf4B6QuN4v1uB/Nd9sPK9bYQCAAbSASE+63oq9pdQ0IHkARGhkEESNAQa1i6RIBgBfSwIARggniBWubYVjNy4i0l8JkowI+oADAKYAU4ApwBSovjLDGGQlxkpM2mxFHS/YCP3Kiqsr2gCAE8QJ1p1g1x76l+8nfzv8BAGcIB//GDLSAAAAAElFTkSuQmCC');
 
         game.load.image('wall2','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABaklEQVR4Xu2bQQoCMQxFOyfQtaAgeDBRXLh3MRtxqQuP6F0UaqtSpraLJgT65gBN5vc3SfPTwTn3dB1/AwAEBtwep654MG7u/n8/DACAwICIjDQdUsC17WYZoO1IBFrbbhGA/XHnfbtcz03JsJqv/Xo5BmjZBYBcEIzIxJ04jNsmDFjMln6dWgZI261mgLQjaQzQAh4AOAKZQogYEKihdRaJAQEBbeYRBAmCBMHp67D2WSQIEgTfCGgzjyxAFiALkAUmu8Lawch8GmzSDvrpLdZ2hKTtVmcBaUdyDJC2WwSglQO5ddAFEinOjC4gvfNW1kcbRBxFHf5fCUqfVbKA1SyQlsKow73L44ijyOPMBzTJiAxIMCHCiAwzQgxJMSXGmBxzgrVtcekSvNgVZkgqDEtL74R5ZQgAuA1yG+z7Ntjk71GHv09vausAaeCLdUArB1CHMwiYFUakd97K+qjDqTpsZWe0/ej+9fgLQA00Ln4/YPMAAAAASUVORK5CYII=');
 
-        game.load.image('floor','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAr0lEQVR4Xu3YQQ3AIBAEQNBBUhU8KhADaENEZbQJj6bVsIMDNndwN/Va6y7Bp8YHMMfYFXD2HlUHR2v7vlUAKkALeAM8gn4B36A5wCBkEjQK2wWSErAM2QatwzwAiBAhJMYEoSgVpsJUmApTYSpMhakwFabCVDjJRAsUhaJQFIpCUSgKRaEoFIWiUBSKQlEoCkWhKBSFolAUikLRpASoMBWmwn8VTur/711fEUoN4AEQ1+FZiO8S4QAAAABJRU5ErkJggg==');
 
         game.load.spritesheet('player', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABAUlEQVRYR+2XQQ4CIQxF6UHceR8X3sPEC7jwAibew4X3cTcHqQEHpsPQMg2MibEsoZTXT2kDuPJAZl4zDYLvtCYZaQ4r2ZZ808DCugiALz0D7NOe3Hc4HBEdwCTANxVAf3gcI8SEksW6RQ7oAXC4q+8AdqcUZB6UWgEDoAp4aTlF6JpdQYsCi6fXmIT0NbDPmhaiYPS4oTueP9MtAMTP4oyRLJXiGd0GAFwt+R+AUlOatWM2QVpygOjONbxg4hd7NB6pZ+gALgd016e4p9qgMh9VgOgwKOE39xgkCAMwBUwBnQI9nmDm43cAZgVJ+DXVRIqVbFU5lf5vqxwUaAxApcAbdyysIFex0rQAAAAASUVORK5CYII=',32,32);
 
         game.load.spritesheet('door','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACfklEQVR4Xu2bTU7DMBCFkxPAskIChMQNqkqsuEDVOyAQC/YgdYPoDgTsWcEtegFWHAIJwapLbhDUKGO5zjiZ+Gdwk2EJydj+/ObN2BF5lmVFNuCfXABUCnj4vB6UDubHz+V6lQIEQKUAIBNbDiZw7nGtCuCeCIDmHrcVwMXVeTm3u/vboGI42D0q49kUwDWuALCZIJCBnbicnwVRwN7OfhmHqoDY45IVEHsipgdwgRcAkgKWRkg8oJIGVy6KB1QEuJUnJigmSDDB15e3IE0QFoTrMPTz+4U2YKQUEACVArbxrgB2OIgCBADzZYmP8cBmRVEA16VF8gCKxcJnjurdvIoTIh7EYlFAMZ36A5hMMgXAN54WSwAYfhW0CoAHpKSAp9Uqu5nNlJoGp4BoAPQkN6lukwJMszLXUvsyhJW6QQFosvcUPaCcL1IF2sqU07fBXgNoI6b/PSUPMBXQZR0bX4e7vNhLAB/f760MTg5Py2dSBkBZx3oNsBZVBSgvCgCLAspmZDRqVdDGA5HOApSNFAVICogHhDFBp9wHI+iDBwgAxP3z5bJWDdC+gaAAl1hmFYDSbfu9Vx+AKcBl0rbGyiVWMgDWi4IF+CqgSyzWPsBUALZjkA81CC0p4BpLABDONNE6QUzy1jQgKkBXDiUWqwJMuxcASAmM6QHKgzQ1JaEA7FjYOxP06gKNi0zvC5b/UMCgATyOx90vQMy8ILTC5BsWbgUIAEQBnVNimxWAmRYngNpY3CngAwCr3Xq8ziCNihK8D9DP003X4vrEmxYREgBLI9QEwGW3XAFggFkA6KXIVIALABXPwwRh3GQAkCQfsA+IAoDcdPTswcH/9/gfuZg5PbPZMrAAAAAASUVORK5CYII=');
+
+        game.load.spritesheet('enemy1', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAhUlEQVRYR+2XSw6AIAxEp/c/NMZFDTF+ZohKTYZ1oY8HtCEANEwcUQagtW9FRKx7BzYDBrABGyhtIN8sC8nES3WAWbCv5ky8BPBGqzCADdjAvwwkrVoPrionbWA0ecKeQVAAfXK2D2Tiu7kSgJp8D3E0nwJQz1yJN4AN1DOg3OAnY6f/jhdB6pIB3FepFAAAAABJRU5ErkJggg==',32,32);
+        game.load.spritesheet('ghost', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAABACAYAAAB7jnWuAAABQ0lEQVRoQ+1Y2Q7DIAwb///RnYZGxxGIA15R1eyp64GNE3KFF+93dJYKI4jhQ5BbD7j+XMRaJXCCH4fMI4QCosFbIRARe8DN9n9ExowssqPgac1MjZPEjAKmnWtK3I7A0u4lU1gV2EqAAl6pUB5S5QRABJKn1yekvp/+W0ywlQAEDsaQ+JpVASegJh2L/G6CaQUs6VcziZ+CKQXcBNYSbFiOf/Mgmoy2hWJ6BKyrop4CTZHPlB8JRAUBNrhGgG5vyRl7cUAF/3yYFLFe50SGBLQ4znxeOyHa6bI4mKpiFmixDhqI/gIeTwNxZZ+QiGL6hEQKPrnvzTihGi2ROiCRuB2Bpd37hERwSFMugOT3CQmaW7wzmlKAWR1PEfDm1E2wXYFHEnjefEBsLpi2lyYkl4H22nOo0MiZs+cDV7fkTXe8lcAb6jQWJzgd+uYAAAAASUVORK5CYII=',32,32);
+
+
 
 
     },
@@ -25,9 +29,15 @@ var StateMain = {
         game.world.setBounds(0, 0, 6400, 6400);
         this.walls = game.add.group();
         this.doors = game.add.group();
+        this.floors = game.add.group();
+        this.enemies = game.add.group();
+
+        game.world.bringToTop(this.walls);
+        game.world.bringToTop(this.doors);
+        game.world.bringToTop(this.enemies);
 
         var rKey = this.makeKey(model.mapLevel,model.mapRoom);
-        var new_room = this.getRoom(rKey);
+        var new_room = this.getRoom(rKey);// See if the room already exists
         if(!new_room){
             // Make room
             var a = [3,5,7,9,11,13];
@@ -45,6 +55,8 @@ var StateMain = {
         this.player.body.setSize(32, 24, 0, 8);
         this.player.anchor.setTo(0.5, 0.5);
 
+
+
         // Place the player outside of the door he just entered through
         if(model.mapNewPx!=0){
             this.player.x = model.mapNewPx;
@@ -52,11 +64,27 @@ var StateMain = {
         }
 
         game.camera.follow(this.player);
-        console.log('map',model.map);
+
+
 
     },
     makeKey: function(lvl,rm){
         return lvl.toString() + "-" + rm.toString();
+    },
+    makePattern: function(){
+        var timers=[];
+        var actions=[];
+
+        var timerCount = game.rnd.integerInRange(2,5);
+        var actionCount = game.rnd.integerInRange(2,5);
+
+        for(var i=0;i<timerCount;i++){
+            timers.push(game.rnd.integerInRange(1,3));
+        }
+        for(var i=0;i<actionCount;i++){
+            actions.push(game.rnd.integerInRange(0,4));
+        }
+        return [timers,actions];
     },
     getRoom: function(key) {
         if(model.map.hasOwnProperty(key)){
@@ -68,7 +96,9 @@ var StateMain = {
     update: function() {
 
         game.physics.arcade.collide(this.player, this.walls);
+        //game.physics.arcade.collide(this.player, this.enemies);
         game.physics.arcade.collide(this.player, this.doors, this.enterDoor, null, this);
+
         if(upInputIsActive()){
             this.player.body.velocity.y = -PLAYER_SPEED;
         }else if(downInputIsActive()){
@@ -76,7 +106,6 @@ var StateMain = {
         }else{
             this.player.body.velocity.y = 0;
         }
-
         if(leftInputIsActive()){
             this.player.body.velocity.x = -PLAYER_SPEED;
         }else if(rightInputIsActive()){
@@ -84,6 +113,9 @@ var StateMain = {
         }else{
             this.player.body.velocity.x = 0;
         }
+
+        //https://phaser.io/examples/v2/sprites/overlap-without-physics
+        //http://www.html5gamedevs.com/topic/1974-using-collision-detection-without-physics/
 
     },
     enterDoor: function(ent,d){
@@ -173,12 +205,49 @@ var StateMain = {
         newDoor = new Door(this.center_x, this.y1+this.hPx, model.mapLastLevel, model.mapLastRoom, model.mapLastPx, model.mapLastPy);
         this.doorMap.push(newDoor);
 
-        this.printCoords = function(){
+        this.printData = function(){
             console.log('x1',this.x1);
             console.log('y1',this.y1);
             console.log('center_x',this.center_x);
             console.log('center_y',this.center_y);
             console.log('doorCount',this.doorCount);
+        }
+
+        this.makePattern = function(){
+            var timers=[];
+            var actions=[];
+
+            var timerCount = game.rnd.integerInRange(2,5);
+            var actionCount = game.rnd.integerInRange(2,5);
+
+            for(var i=0;i<timerCount;i++){
+                timers.push(game.rnd.integerInRange(1,3));
+            }
+            for(var i=0;i<actionCount;i++){
+                actions.push(game.rnd.integerInRange(0,4));
+            }
+            return [timers,actions];
+        }
+
+        this.enemies=[];
+        this.makeEnemies = function(){
+            var eSpan = Math.floor((w+h)/4);
+            console.log('eSpan',eSpan);
+            var numEnemies = game.rnd.between(1,eSpan) * 2;
+            console.log('numEnemies',numEnemies);
+
+            var typeEnemy = game.rnd.pick([1]);//1:Ghost, 2:??
+            var pattern = this.makePattern();
+            this.enemies.push([numEnemies,typeEnemy,pattern]);
+        }
+        this.makeEnemies();
+
+        // Pillars can not be on the center row or the first or last row. Cannot block doors or enemey placement.
+        // Each pillar is just an x,y coord that corresponds to a floor tile.
+        this.pillars=[];
+        var pCount = game.rnd.between(0,Math.floor(h/4));
+        for(var p=0;p<pCount;p++){
+            this.pillars.push([game.rnd.between(1,Math.floor(w/2)),game.rnd.between(1,Math.floor(h/2)-1)]);
         }
 
 
@@ -190,6 +259,7 @@ var StateMain = {
         for (x = room.x1; x < room.x2; x+=SCALE) {
             for (y = room.y1; y < room.y2; y+=SCALE){
                 floortile = game.add.sprite(x, y, "floor");
+                this.floors.add(floortile);
             }
         }
         // Instantiate walls
@@ -212,12 +282,48 @@ var StateMain = {
             this.addDoor(doors[i].dx1, doors[i].dy1, doors[i].mapIndex, i);
         }
 
+        // Add pillars
+
+        for(var i=0;i<room.pillars.length;i++){
+            var P=room.pillars[i];
+            var cx = room.center_x - (SCALE/2);//upper left corner of center tile
+            var cy = room.center_y - (SCALE/2);
+            this.addWall( cx - (P[0]*SCALE ), cy - (P[1]*SCALE), "wall1");
+            this.addWall( cx + (P[0]*SCALE ), cy - (P[1]*SCALE), "wall1");
+            this.addWall( cx - (P[0]*SCALE ), cy + (P[1]*SCALE), "wall1");
+            this.addWall(  cx + (P[0]*SCALE ), cy + (P[1]*SCALE), "wall1");
+        }
+
+        // Add enemies
+        var eXplc = 1;
+        var eYplc = 0;
+        var E;
+        for(var i=0;i<room.enemies.length;i++){
+            var eData = room.enemies[i];
+            var eCount = eData[0];
+            var eType = eData[1];
+
+            for(var e=0;e<Math.floor(eCount/2);e++){
+                var eX = game.rnd.between(1,Math.floor(room.w/2));
+                var eY = game.rnd.between(1,Math.floor(room.h/2));
+                console.log('eX',eX);
+                console.log('eY',eY);
+
+                E = new Ghost(room.center_x - (eX * SCALE * eXplc),room.center_y - (eY*SCALE*eYplc),this.walls,-1,1,1,0,eData[2]);
+                this.enemies.add(E);
+                E = new Ghost(room.center_x + (eX * SCALE * eXplc),room.center_y - (eY*SCALE*eYplc),this.walls,1,-1,1,0,eData[2]);
+                this.enemies.add(E);
+
+            }
+        }
+
 
     },
     addWall: function(x,y,type){
         var walltile = game.add.sprite(x, y, type);
         game.physics.enable(walltile, Phaser.Physics.ARCADE);
         walltile.body.immovable = true;
+        walltile.bringToTop();
         this.walls.add(walltile);
     },
     addDoor: function(x,y,goLvl,i){

@@ -28,6 +28,8 @@ var StateLoad = {
         game.load.audio("backgroundMusic", "audio/background/piano.mp3");
         //game.load.audio("elephant","audio/sfx/elephant.mp3");
         this.loadSFX("elephant");
+
+
     },
     loadMain(name) {
         game.load.image(name, "images/main/" + name + ".png");
