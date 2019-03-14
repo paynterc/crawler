@@ -4,23 +4,24 @@ class Enemy extends Phaser.Sprite {
         super(game,x,y,"enemy1",0);
 
         game.physics.enable(this, Phaser.Physics.ARCADE);
-
-        // Add gravity
-        game.physics.enable(this, Phaser.Physics.ARCADE);
         this.body.setSize(32, 24, 0, 8);
         this.anchor.setTo(0.5, 0.5);
         //this.body.immovable=true;
 
+        this.hp=50;
+        this.attackSpeed = 2;
+        this.damage = 1;
+
+        this.canDamage=true;
+
         this.walls=walls;
-
-
-
         this.runSpeed = 128;
         this.curSpeed = this.runSpeed;
         this.orX=orX;//1 or -1. x orientation and y orientation. used to mirror-image enemies.
         this.orY=orY;
         this.dirX=dirX;//1 or 0. Set to 1 if moving on horizontal axis.
         this.dirY=dirY;//1 or 0. set to 1 if moving on vertical axis.
+        this.scale.x *= this.orX;
 
         this.timers = pattern[0];// pattern is an array of timers and actions. 0 is timers, 1 is actions
         this.actions = pattern[1];
@@ -40,6 +41,16 @@ class Enemy extends Phaser.Sprite {
         // Change theimage
         //this.loadTexture('mummy', 0);
 
+    }
+
+    coolDown(){
+        this.canDamage=false;
+        this.coolDownTimer = game.time.events.add(Phaser.Timer.SECOND / this.attackSpeed, this.endCoolDown, this);
+    }
+
+    endCoolDown(){
+        game.time.events.remove(this.coolDownTimer);
+        this.canDamage=true;
     }
 
     nextAction(){
@@ -77,6 +88,24 @@ class Enemy extends Phaser.Sprite {
         //this.angle += .5;
         // Run into walls
         game.physics.arcade.collide(this, this.walls, this.onWallCollision, null, this);
+
+
+    }
+
+    applyDamage(d) {
+        this.hp-=d;
+        if(this.hp<0){
+            this.kill();
+        }else{
+            this.tint = 0xff0000;
+            this.flashTimer = game.time.events.add(Phaser.Timer.SECOND * 0.10, this.flashOff, this);
+        }
+
+    }
+
+    flashOff(){
+        game.time.events.remove(this.flashTimer);
+        this.tint = 0xffffff;
     }
 
     onWallCollision(obj,wall) {

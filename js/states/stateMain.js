@@ -39,12 +39,9 @@ var StateMain = {
         this.current_room = new_room;
         this.renderRoom(new_room);
 
-
-        this.player = game.add.sprite(new_room.center_x, new_room.y1+new_room.hPx-(SCALE/2), 'player');
-        game.physics.enable(this.player, Phaser.Physics.ARCADE);
-        this.player.body.setSize(32, 24, 0, 8);
-        this.player.anchor.setTo(0.5, 0.5);
-
+        this.player = new Player(new_room.center_x, new_room.y1+new_room.hPx-(SCALE/2));
+        this.weapon = new Sword(this.player.x,this.player.y);
+        this.player.setWeapon(this.weapon);
 
 
         // Place the player outside of the door he just entered through
@@ -70,29 +67,80 @@ var StateMain = {
     update: function() {
 
         game.physics.arcade.collide(this.player, this.walls);
-        //game.physics.arcade.collide(this.player, this.enemies);
+        game.physics.arcade.collide(this.player, this.enemies,  this.enemyHitHandler, this.enemyHitProcess,this);
         game.physics.arcade.collide(this.player, this.doors, this.enterDoor, null, this);
+        game.physics.arcade.collide(this.weapon, this.enemies,  this.weaponHitHandler, this.weaponHitProcess,this);
 
-        if(upInputIsActive()){
-            this.player.body.velocity.y = -PLAYER_SPEED;
-        }else if(downInputIsActive()){
-            this.player.body.velocity.y = PLAYER_SPEED;
-        }else{
-            this.player.body.velocity.y = 0;
+
+        if(this.player.canMove){
+            if(upInputIsActive()){
+                this.player.body.velocity.y = -PLAYER_SPEED;
+            }else if(downInputIsActive()){
+                this.player.body.velocity.y = PLAYER_SPEED;
+            }else{
+                this.player.body.velocity.y = 0;
+            }
+            if(leftInputIsActive()){
+                this.player.body.velocity.x = -PLAYER_SPEED;
+                this.player.scale.x = -1;
+            }else if(rightInputIsActive()){
+                this.player.body.velocity.x = PLAYER_SPEED;
+                this.player.scale.x = 1;
+            }else{
+                this.player.body.velocity.x = 0;
+            }
+
+            if(fireButtonIsActive()){
+                this.player.attack();
+                this.player.body.velocity.x=0;
+                this.player.body.velocity.y=0;
+            }
+
+            if(this.player.body.velocity.x!=0 || this.player.body.velocity.y != 0){
+                this.player.animations.play('run');
+            }else{
+                this.player.animations.play('wait');
+            }
+
         }
-        if(leftInputIsActive()){
-            this.player.body.velocity.x = -PLAYER_SPEED;
-        }else if(rightInputIsActive()){
-            this.player.body.velocity.x = PLAYER_SPEED;
-        }else{
-            this.player.body.velocity.x = 0;
-        }
+
+
+
 
         //https://phaser.io/examples/v2/sprites/overlap-without-physics
         //http://www.html5gamedevs.com/topic/1974-using-collision-detection-without-physics/
 
     },
-    enterDoor: function(ent,d){
+    weaponHitHandler: function(w,e){
+
+        return false;
+    },
+    weaponHitProcess: function(w,e){
+
+        if(w.firing){
+            e.applyDamage(w.damage);
+        }
+        return false;
+
+    },
+    enemyHitHandler: function(p,e){
+        console.log('enemyHitHandler');
+        return false;
+    },
+    enemyHitProcess: function(p,e){
+
+        console.log('enemyHitProcess p',p);
+        console.log('enemyHitProcess e',e);
+        if(e.canDamage){
+            e.coolDown();
+            this.player.applyDamage(e.damage);
+            this.player.applyKnockback(e.x,e.y,1);
+        }
+
+        return false;
+
+    },
+    enterDoor: function(p,d){
 
         // Get the index of the door and look up the door in the current room's door data to get the destination level and room.
         var dIdx = d.crwlIdx;
@@ -151,7 +199,7 @@ var StateMain = {
         var gCy=Math.floor(this.grid.length/2);// Rows/2 rounded down
         var rGx1 = gCx - Math.floor(w/2);// room x1. upper left.
         var rGy1 = gCy - Math.floor(h/2);// room y1. upper left.
-        // Fill in the grid with floor tags
+        // Fill in the room with floor tags
         for(var r=rGy1;r<rGy1+h;r++){
             for(var c=rGx1;c<rGx1+w;c++){
                 this.grid[r][c]=G_FLOOR;

@@ -10,7 +10,10 @@ class Ghost extends Enemy {
         this.animations.play('run');
         this.body.velocity.x = this.curSpeed * this.orX * this.dirX;
         this.body.velocity.y = this.curSpeed * this.orY * this.dirY;
-        this.scale.x *= this.orX;
+
+        this.hp=12;
+
+
     }
 
     onWallCollision(obj,wall) {
